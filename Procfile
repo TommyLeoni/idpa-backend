@@ -1,1 +1,1 @@
-web: python3.8 server.py
+web: gunicorn app:server
