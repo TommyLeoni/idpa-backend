@@ -2,6 +2,8 @@
   <dictionary name="tomaso">
     <words>
       <w>gunicorn</w>
+      <w>spacy</w>
+      <w>werkzeug</w>
     </words>
   </dictionary>
 </component>
