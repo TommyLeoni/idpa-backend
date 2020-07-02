@@ -1,4 +1,6 @@
 import os
+
+import flask
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
@@ -38,7 +40,9 @@ def text_file_upload():
             f = open(os.path.join("uploads", filename), "r", encoding="utf-8")
             file_content = f.read()
             results = analyze_text(file_content)
-            return jsonify(results, file_content)
+            resp = flask.Response(jsonify(results, file_content))
+            resp.headers['Access-Control-Allow-Origin'] = '*'
+            return resp
 
 
 @app.route('/api/textRawUpload', methods=['POST'])
@@ -46,7 +50,9 @@ def text_file_upload():
 def text_raw_upload():
     data = request.get_json()
     results = analyze_text(data['content'])
-    return jsonify(results, data['content'])
+    resp = flask.Response(jsonify(results, data['content']))
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 
 @app.route('/', methods=['GET'])
