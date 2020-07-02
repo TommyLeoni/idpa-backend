@@ -1,0 +1,4 @@
+flask>=1.1.2
+flask_cors>=3.0.7
+spacy>=2.3
+spacy_sentiws>=0.0.6

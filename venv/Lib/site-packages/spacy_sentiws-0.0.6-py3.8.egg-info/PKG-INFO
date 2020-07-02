@@ -1,0 +1,12 @@
+Metadata-Version: 1.1
+Name: spacy-sentiws
+Version: 0.0.6
+Summary: Integration of SentiWS as spaCy extension
+Home-page: https://github.com/Liebeck/spacy-sentiws
+Author: Matthias Liebeck
+Author-email: liebeck@cs.uni-duesseldorf.de
+License: UNKNOWN
+Download-URL: https://github.com/Liebeck/spacy-sentiws/archive/0.0.6.tar.gz
+Description: UNKNOWN
+Keywords: IWNLP,NLP,German,sentiment,spaCy
+Platform: UNKNOWN

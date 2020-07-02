@@ -1,0 +1,12 @@
+README.md
+setup.cfg
+setup.py
+spacy_sentiws/__init__.py
+spacy_sentiws/senti_ws_entry.py
+spacy_sentiws/senti_ws_wrapper.py
+spacy_sentiws.egg-info/PKG-INFO
+spacy_sentiws.egg-info/SOURCES.txt
+spacy_sentiws.egg-info/dependency_links.txt
+spacy_sentiws.egg-info/top_level.txt
+tests/__init__.py
+tests/test_sentiws_wrapper.py
