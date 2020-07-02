@@ -22,6 +22,7 @@ def allowed_file(filename):
 
 
 @app.route('/api/textFileUpload', methods=['GET', 'POST'])
+@cross_origin()
 def text_file_upload():
     if request.method == 'POST':
         if 'file' not in request.files:
@@ -46,6 +47,13 @@ def text_raw_upload():
     data = request.get_json()
     results = analyze_text(data['content'])
     return jsonify(results, data['content'])
+
+
+@app.route('/', methods=['GET'])
+@cross_origin()
+def greetings():
+    return "This is just the index of my backend. Nothing special to see here. Please visit " \
+           "https://www.idpa-tomaso.herokuapp.com to view my application. "
 
 
 if __name__ == '__main__':
