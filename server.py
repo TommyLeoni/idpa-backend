@@ -10,17 +10,30 @@ from model.response_encoder import ResponseEncoder
 
 SECRET_KEY = os.urandom(24)
 LOCAL_PATH = os.path.abspath(os.path.dirname(__file__))
-UPLOAD_FOLDER = r"/Users/Tommy/development/IDPA/idpa-repository/backend/uploads"
 ALLOWED_EXTENSION = {'txt'}
 
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = SECRET_KEY
 cors = CORS(app)
 
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSION
+
+
+@app.route('/api/test', methods=['GET'])
+@cross_origin()
+def test():
+    return "<h3>This is just the index of my backend. Nothing special to see here. </h3>" \
+           "<p>Please visit https://www.idpa-tomaso.herokuapp.com to view my application. </p>"
+
+
+@app.route('/api/textRawUpload', methods=['POST'])
+@cross_origin()
+def text_raw_upload():
+    data = request.get_json()
+    results = analyze_text(data['content'])
+    return jsonify(results, data['content'])
 
 
 @app.route('/api/textFileUpload', methods=['GET', 'POST'])
@@ -40,27 +53,8 @@ def text_file_upload():
             f = open(os.path.join("uploads", filename), "r", encoding="utf-8")
             file_content = f.read()
             results = analyze_text(file_content)
-            resp = flask.Response(jsonify(results, file_content))
-            resp.headers['Access-Control-Allow-Origin'] = '*'
-            return resp
-
-
-@app.route('/api/textRawUpload', methods=['POST'])
-@cross_origin()
-def text_raw_upload():
-    data = request.get_json()
-    results = analyze_text(data['content'])
-    resp = flask.Response(jsonify(results, data['content']))
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    return resp
-
-
-@app.route('/', methods=['GET'])
-@cross_origin()
-def greetings():
-    return "This is just the index of my backend. Nothing special to see here. Please visit " \
-           "https://www.idpa-tomaso.herokuapp.com to view my application. "
+            return jsonify(results, file_content)
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(port=5000, threaded=True)

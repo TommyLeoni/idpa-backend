@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\tomas\Documents\Development\IDPA\idpa-repository\backend\venv"
+VIRTUAL_ENV="C:\Users\tomas\Documents\Development\IDPA\idpa-deploy\backend\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
