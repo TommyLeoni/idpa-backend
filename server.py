@@ -1,16 +1,16 @@
-# Server imports
 import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 
-# Analyzation imports
 import spacy
 from spacy_langdetect import LanguageDetector
-from german_analyzation import analyze_german
-from english_analyzation import analyze_english
+from components.analysis.german_analyzation import analyze_german
+from components.analysis.english_analyzation import analyze_english
 
 # Setup nlp for language detection
+from components.response.structure_response import structure_response
+
 nlp = spacy.load("en_core_web_sm")
 nlp.add_pipe(LanguageDetector(), name="language_detector", last=True)
 
@@ -40,7 +40,13 @@ def test():
 @cross_origin()
 def text_raw_upload():
     data = request.get_json()
-    results = analyze_german(data['content'])
+
+    doc = nlp(data['content'])
+    if doc._.language['language'] == 'de':
+        results = analyze_german(data['content'])
+    elif doc._.language['language'] == 'en':
+        results = analyze_english(data['content'])
+
     return jsonify(results, data['content'])
 
 
@@ -63,11 +69,16 @@ def text_file_upload():
             doc = nlp(file_content)
 
             if doc._.language['language'] == 'de':
-                results = analyze_german(file_content)
+                raw_results = analyze_german(file_content)
             elif doc._.language['language'] == 'en':
-                results = analyze_english(file_content)
+                raw_results = analyze_english(file_content)
 
-            return jsonify(results, file_content)
+            f.close()
+            os.remove(os.path.join(LOCAL_PATH, "uploads", filename))
+
+            results = structure_response(raw_results, file_content)
+
+            return jsonify(results)
 
 
 if __name__ == '__main__':

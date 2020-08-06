@@ -1,6 +1,7 @@
 from nltk import pos_tag, word_tokenize, sent_tokenize
 from nltk.corpus import stopwords, sentiwordnet as swn
 from nltk.stem import WordNetLemmatizer
+from components.response.structure_response import structure_response
 
 lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
@@ -42,7 +43,7 @@ def analyze_english(text):
                     if neg_score / len(synset_results) > 0.05:
                         results.append({
                             "text": sentence,
-                            "danger": tagged_token[0],
+                            "danger": [tagged_token[0]],
                             "danger_value": neg_score / len(synset_results),
                             "danger_obj": tagged_token[1]
                         })

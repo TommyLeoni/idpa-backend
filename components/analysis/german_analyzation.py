@@ -11,7 +11,7 @@ def analyze_german(text):
     for sent in doc.sents:
         sentences.append(sent)
 
-    sentiws = spaCySentiWS(sentiws_path='data/sentiws/')
+    sentiws = spaCySentiWS(sentiws_path='../../data/sentiws/')
     nlp.add_pipe(sentiws)
 
     results = []
