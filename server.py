@@ -5,8 +5,8 @@ from werkzeug.utils import secure_filename
 
 import spacy
 from spacy_langdetect import LanguageDetector
-from components.analysis.german_analyzation import analyze_german
-from components.analysis.english_analyzation import analyze_english
+from components.analysis.german_analysis import analyze_german
+from components.analysis.english_analysis import analyze_english
 
 # Setup nlp for language detection
 from components.response.structure_response import structure_response
@@ -76,9 +76,9 @@ def text_file_upload():
             f.close()
             os.remove(os.path.join(LOCAL_PATH, "uploads", filename))
 
-            results = structure_response(raw_results, file_content)
+            #results = structure_response(raw_results, file_content)
 
-            return jsonify(results)
+            return jsonify(raw_results)
 
 
 if __name__ == '__main__':
