@@ -9,8 +9,6 @@ from components.analysis.german_analysis import analyze_german
 from components.analysis.english_analysis import analyze_english
 
 # Setup nlp for language detection
-from components.response.structure_response import structure_response
-
 nlp = spacy.load("en_core_web_sm")
 nlp.add_pipe(LanguageDetector(), name="language_detector", last=True)
 
@@ -23,6 +21,7 @@ ALLOWED_EXTENSION = {'txt'}
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 cors = CORS(app)
+app.debug = True
 
 
 def allowed_file(filename):
@@ -39,6 +38,8 @@ def test():
 @app.route('/api/textRawUpload', methods=['POST'])
 @cross_origin()
 def text_raw_upload():
+    # noinspection PyGlobalUndefined
+    global results
     data = request.get_json()
 
     doc = nlp(data['content'])
@@ -50,9 +51,11 @@ def text_raw_upload():
     return jsonify(results, data['content'])
 
 
+# noinspection PyGlobalUndefined
 @app.route('/api/textFileUpload', methods=['GET', 'POST'])
 @cross_origin()
 def text_file_upload():
+    global raw_results
     if request.method == 'POST':
         if 'file' not in request.files:
             return "No file in request"
@@ -75,8 +78,6 @@ def text_file_upload():
 
             f.close()
             os.remove(os.path.join(LOCAL_PATH, "uploads", filename))
-
-            #results = structure_response(raw_results, file_content)
 
             return jsonify(raw_results)
 
