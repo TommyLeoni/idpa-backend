@@ -9,7 +9,7 @@ from components.analysis.german_analysis import analyze_german
 from components.analysis.english_analysis import analyze_english
 
 # Setup nlp for language detection
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("de_core_news_md")
 nlp.add_pipe(LanguageDetector(), name="language_detector", last=True)
 
 # Basic local variables for file transfer
