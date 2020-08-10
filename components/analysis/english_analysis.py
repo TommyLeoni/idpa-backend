@@ -41,11 +41,15 @@ def analyze_english(text):
 
                     # Return in form of same json object as used by german_analysis.py if negative enough
                     if neg_score / len(synset_results) > 0.05:
-                        results[-1] = {
-                            "sentence": sentence,
-                            "danger": [tagged_token[0]],
-                            "danger_value": neg_score / len(synset_results),
-                            "danger_obj": tagged_token[1]
-                        }
+                        if len(results) > 1 and 'danger' in results[-1]:
+                            results[-1]['danger'].append(tagged_token[0])
+
+                        else:
+                            results[-1] = {
+                                "sentence": sentence,
+                                "danger": [tagged_token[0]],
+                                "danger_value": neg_score / len(synset_results),
+                                "danger_obj": tagged_token[1]
+                            }
 
     return results

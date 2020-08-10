@@ -30,11 +30,16 @@ def analyze_german(text):
         for token in filtered_doc:
             if token._.sentiws:
                 if token._.sentiws < -0.3:
-                    results[-1] = {
-                        "sentence": sentence.text,
-                        "danger": [token.text],
-                        "danger_value": token._.sentiws,
-                        "danger_obj": token.pos_
-                    }
+                    if len(results) > 1 and 'danger' in results[-1]:
+                        results[-1]['danger'].append(token.text)
 
+                    else:
+                        results[-1] = {
+                            "sentence": sentence.text,
+                            "danger": [token.text],
+                            "danger_value": token._.sentiws,
+                            "danger_obj": token.pos_
+                        }
+
+    print(results)
     return results
