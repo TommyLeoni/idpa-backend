@@ -41,5 +41,4 @@ def analyze_german(text):
                             "danger_obj": token.pos_
                         }
 
-    print(results)
     return results
