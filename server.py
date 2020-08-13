@@ -41,14 +41,14 @@ def text_raw_upload():
         results = analyze_english(data['content'])
 
     nlp = None
-    return jsonify(results, data['content'])
+    return jsonify(results)
 
 
 # noinspection PyGlobalUndefined
 @app.route('/api/textFileUpload', methods=['GET', 'POST'])
 @cross_origin()
 def text_file_upload():
-    global raw_results
+    global results
 
     # Setup nlp for language detection
     nlp = spacy.load("de_core_news_sm")
@@ -70,15 +70,15 @@ def text_file_upload():
             doc = nlp(file_content)
 
             if doc._.language['language'] == 'de':
-                raw_results = analyze_german(file_content)
+                results = analyze_german(file_content)
             elif doc._.language['language'] == 'en':
-                raw_results = analyze_english(file_content)
+                results = analyze_english(file_content)
 
             f.close()
             os.remove(os.path.join(LOCAL_PATH, "uploads", filename))
 
     nlp = None
-    return jsonify(raw_results)
+    return jsonify(results)
 
 
 if __name__ == '__main__':
